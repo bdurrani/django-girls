@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from .models import Elvis
 
-# Create your views here.
+def unit_list(request):
+    units = Elvis.objects
+    return render(request, 'checkout/unit_list.html', {'units': units})

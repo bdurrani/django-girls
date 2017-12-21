@@ -3,6 +3,8 @@ from django.conf import settings
 from django.utils import timezone
 
 class Elvis(models.Model): 
+    class Meta:
+        verbose_name_plural = 'Elvises'
 # https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#referencing-the-user-model
     current_user = models.ForeignKey(
        settings.AUTH_USER_MODEL,
@@ -37,5 +39,13 @@ class Elvis(models.Model):
     
     def __str__(self):
         return self.name
+        
+    def save(self, *args, **kwargs):
+        # make things uppercase before saving them
+        self.serial_number = self.serial_number.upper()
+        self.device_id = self.device_id.upper()
+        self.firmware = self.device_id.upper()
+        # Call the "real" save() method.
+        super().save(*args, **kwargs)  
     
     
