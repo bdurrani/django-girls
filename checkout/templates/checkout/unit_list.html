@@ -1,0 +1,33 @@
+{% extends 'checkout/base.html' %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">#</th> 
+              <th scope="col">Device name</th>
+              <th scope="col">Revision</th>
+              <th scope="col">IP Address</th>
+              <th scope="col">Current User</th>
+              <th scope="col">Availability</th>
+            </tr>
+         </thead>
+         <tbody> 
+          {% for unit in units %}
+              <tr> 
+                  <td>{{forloop.counter}}</td>
+                  <td>{{unit.name}}</td>
+                  <td>{{unit.revision}}</td>
+                  <td>{{unit.ip_address}}</td>
+                  <td>{{unit.current_user}}</td>
+                  <td data-unitpk="{{ unit.pk }}" data-url="{% url 'update_availability' pk=unit.pk userid=request.user.id %}">
+                      {{unit.availability}}
+                      <a class="btn btn-default" href=""><span class="glyphicon glyphicon-pencil"></span></a>
+                      </td>
+              </tr>
+          {% endfor %}
+         </tbody>
+    </table>
+        
+        
+{% endblock %}

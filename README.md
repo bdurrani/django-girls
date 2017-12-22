@@ -40,7 +40,7 @@ Create the virtualenv with the name `myenv`
 
 ## Debugging django
 - install pdbpp into the virtualenv
-- run `python --pdb manage.py runserver 0.0.0.0:8080`
+- run `python -m pdb manage.py runserver 0.0.0.0:8080`
   - add a breakpoint `import pdb; pdb.set_trace()`
   - ll -> display function source
   - c -> continue

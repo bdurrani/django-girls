@@ -5,7 +5,8 @@ from django.utils import timezone
 class Elvis(models.Model): 
     class Meta:
         verbose_name_plural = 'Elvises'
-# https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#referencing-the-user-model
+        
+    # https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#referencing-the-user-model
     current_user = models.ForeignKey(
        settings.AUTH_USER_MODEL,
        on_delete=models.CASCADE,
