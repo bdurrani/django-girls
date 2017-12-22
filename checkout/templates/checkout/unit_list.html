@@ -1,33 +1,45 @@
-{% extends 'checkout/base.html' %}
-
-{% block content %}
-    <table class="table">
-        <thead>
-            <tr>
-              <th scope="col">#</th> 
-              <th scope="col">Device name</th>
-              <th scope="col">Revision</th>
-              <th scope="col">IP Address</th>
-              <th scope="col">Current User</th>
-              <th scope="col">Availability</th>
-            </tr>
-         </thead>
-         <tbody> 
-          {% for unit in units %}
-              <tr> 
-                  <td>{{forloop.counter}}</td>
-                  <td>{{unit.name}}</td>
-                  <td>{{unit.revision}}</td>
-                  <td>{{unit.ip_address}}</td>
-                  <td>{{unit.current_user}}</td>
-                  <td data-unitpk="{{ unit.pk }}" data-url="{% url 'update_availability' pk=unit.pk userid=request.user.id %}">
-                      {{unit.availability}}
-                      <a class="btn btn-default" href=""><span class="glyphicon glyphicon-pencil"></span></a>
-                      </td>
-              </tr>
-          {% endfor %}
-         </tbody>
-    </table>
-        
-        
+{% extends 'checkout/base.html' %} {% block content %}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Device name</th>
+            <th scope="col">Revision</th>
+            <th scope="col">IP Address</th>
+            <th scope="col">Current User</th>
+            <th scope="col">Availability</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for unit in units %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{unit.name}}</td>
+            <td>{{unit.revision}}</td>
+            <td>{{unit.ip_address}}</td>
+            <td>{{unit.current_user}}</td>
+            <td >
+                <div>
+                    {{unit.get_availability_display}} 
+                    {% if unit.availability != "in_use" %} 
+                    <!--<div class="status-selector">-->
+                    <!--    <select name="text" id='dropdown' data-unitpk="{{ unit.pk }}" style="display:none">-->
+                    <!--    <option value="value1">Available</option> -->
+                    <!--    <option value="value2" selected >In Use</option> -->
+                    <!--    <option value="value3">Offline</option> -->
+                    <!--</select>-->
+                    <!--</div>-->
+                        <a class="editor-button btn btn-default btn-sm" 
+                        href="" 
+                        data-unitpk="{{ unit.pk }}" 
+                        data-url="{% url 'update_availability' pk=unit.pk userid=request.user.id %}">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                        </a>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

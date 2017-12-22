@@ -44,4 +44,9 @@ Create the virtualenv with the name `myenv`
   - add a breakpoint `import pdb; pdb.set_trace()`
   - ll -> display function source
   - c -> continue
-  - n -> next
+  - n -> next 
+  
+## template tags
+- Using display names for charfield choices
+  - http://tomomoi.tumblr.com/post/53075175374/django-displaying-choicefield-value-in-templates
+  

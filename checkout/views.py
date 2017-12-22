@@ -13,10 +13,11 @@ def unit_list(request):
     return render(request, 'checkout/unit_list.html', {'units': units})
     
 def update_availability(request, pk, userid):
-    import pdb; pdb.set_trace()
     user = User.objects.get(id=userid)
-    unit = Elvis.objects.filter(id=pk)
+    unit = Elvis.objects.get(id=pk)
+    import pdb; pdb.set_trace()
     unit.current_user = user;
+    unit.availability = Elvis.IN_USE;
     unit.save()
     return HttpResponse(status=204)
 
