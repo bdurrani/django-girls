@@ -21,34 +21,44 @@
 
         function clickButton(ev) {
             console.log('editor button click');
-            // ev.preventDefault();
+            ev.preventDefault();
             const btn = ev.currentTarget;
             const dataset = btn.dataset;
 
             if (dataset) {
                 let url = dataset.url;
-                fetch(url, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                    })
-                    .catch(function(reason) {
-                        console.log(reason);
+                let unitid = dataset.unitpk;
+                let userid = dataset.userid;
+                $.get(url, {
+                        unitid: unitid,
+                        userid: userid
+                    },
+                    function(data) {
+                        console.log(data);
+                        const available = $('#availability_' + unitid);
+                        const currentuser = $('#current_user_' + unitid);
+                        available.html(data.availability);
+                        currentuser.html(data.username)
+                        if (data.operation === 'checkout') {}
+                        else {}
                     });
+                // .done(function() {
+                //     alert("second success");
+                // })
+                // .fail(function() {
+                //     alert("error");
+                // })
+
             }
-            // const div = $(btnNode).siblings('div.status-selector');
-            // const selector = div.children('select');
-            // selector.toggle();
         }
-        // <a class="btn btn-default" id='editor' href=""><span class="glyphicon glyphicon-pencil"></span></a> <
-        // $('#editor').click(function(e) {
-        //     e.preventDefault();
-        //     $('#dropdown').toggle();
-        // }); 
-        // $('td[data-unitpk]').on("click", clickcell);
+
+        function encodeQueryData(data) {
+            let ret = [];
+            for (let d in data)
+                ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+            return ret.join('&');
+        }
+
         let editorButtons = Array.from(document.querySelectorAll('.editor-button'));
         editorButtons.forEach(key => key.addEventListener('click', clickButton));
     });

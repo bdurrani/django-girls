@@ -17,23 +17,26 @@
             <td>{{unit.name}}</td>
             <td>{{unit.revision}}</td>
             <td>{{unit.ip_address}}</td>
-            <td>{{unit.current_user}}</td>
+            <td id="current_user_{{ unit.pk }}">{{unit.current_user}}</td>
             <td >
                 <div>
-                    {{unit.get_availability_display}} 
+                    <span id="availability_{{unit.pk}}">
+                    {{unit.get_availability_display}}   
+                    </span>
                     {% if unit.availability != "in_use" %} 
-                    <!--<div class="status-selector">-->
-                    <!--    <select name="text" id='dropdown' data-unitpk="{{ unit.pk }}" style="display:none">-->
-                    <!--    <option value="value1">Available</option> -->
-                    <!--    <option value="value2" selected >In Use</option> -->
-                    <!--    <option value="value3">Offline</option> -->
-                    <!--</select>-->
-                    <!--</div>-->
                         <a class="editor-button btn btn-default btn-sm" 
                         href="" 
                         data-unitpk="{{ unit.pk }}" 
-                        data-url="{% url 'update_availability' pk=unit.pk userid=request.user.id %}">
+                        data-userid="{{request.user.id}}"
+                        data-url="{% url 'update_availability1' %}">
                             <span class="glyphicon glyphicon-thumbs-up"></span>
+                        </a>
+                    {% elif unit.current_user.id == request.user.id and unit.availability == inuse %}
+                        <a class="editor-button btn btn-default btn-sm" href="" 
+                        data-unitpk="{{ unit.pk }}" 
+                        data-userid="{{request.user.id}}"
+                        data-url="{% url 'update_availability1' %}">
+                            <span class="glyphicon glyphicon-eject"></span>
                         </a>
                     {% endif %}
                 </div>
