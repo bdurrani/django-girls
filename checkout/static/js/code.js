@@ -59,7 +59,7 @@
             return ret.join('&');
         }
 
-        let editorButtons = Array.from(document.querySelectorAll('.editor-button'));
-        editorButtons.forEach(key => key.addEventListener('click', clickButton));
+        // let editorButtons = Array.from(document.querySelectorAll('.editor-button'));
+        // editorButtons.forEach(key => key.addEventListener('click', clickButton));
     });
 })();

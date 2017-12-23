@@ -49,3 +49,7 @@ https://tutorial.djangogirls.org/en/django_admin/
 One way to do it would be using the cycle tag
 https://stackoverflow.com/questions/9388064/django-template-turn-array-into-html-table
 
+## handling POST requests
+This snippet explains things
+https://djangosnippets.org/snippets/10548/
+I didnt realize that I can just reuse the same template
