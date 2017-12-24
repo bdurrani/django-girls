@@ -1,4 +1,5 @@
-{% extends 'checkout/base.html' %} {% block content %}
+{% extends 'checkout/base.html' %} 
+{% block content %}
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -19,36 +20,22 @@
             <td>{{unit.ip_address}}</td>
             <td id="current_user_{{ unit.pk }}">{{unit.current_user}}</td>
             <td >
-                <div 
-                    data-unitpk="{{ unit.pk }}" 
-                    data-userid="{{request.user.id}}"
-                    data-url="{% url 'update_availability1' %}">
-                
-                    <span id="availability_{{unit.pk}}">
-                    {{unit.get_availability_display}}   
-                    </span>
-                    {% if unit.availability != "in_use" %} 
-                         <form id="form_{{ unit.pk }}" action="{% url 'update_availability1' %}" method="post">
-            		        {% csrf_token %}
-                            <input type="hidden" name="unitid" value="{{ unit.pk }}" />
-                            <input type="hidden" name="userid" value="{{request.user.id}}" />
-                            <a class="editor-button btn btn-default btn-sm" 
-                                href="#" 
-                                data-unitpk="{{unit.pk}}" 
-                                data-userid="{{request.user.id}}"
-                                data-url="{% url 'update_availability1' %}"
-                                onClick="document.getElementById('form_{{ unit.pk }}').submit();">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                            </a>
-            			</form>
-                    {% elif unit.current_user.id == request.user.id and unit.availability == inuse %}
-                        <a class="editor-button btn btn-default btn-sm" href="" 
-                        data-unitpk="{{ unit.pk }}" 
-                        data-userid="{{request.user.id}}"
-                        data-url="{% url 'update_availability1' %}">
-                            <span class="glyphicon glyphicon-eject"></span>
+                <div>
+                    <form id="form_{{ unit.pk }}" action="{% url 'update_availability' %}" method="post">
+        		        {% csrf_token %}
+                        {{unit.get_availability_display}}   
+                        <input type="hidden" name="unitid" value="{{ unit.pk }}" />
+                        <input type="hidden" name="userid" value="{{request.user.id}}" />
+                        <a class="editor-button btn btn-default btn-sm" 
+                           href="#" 
+                           onClick="document.getElementById('form_{{ unit.pk }}').submit();">
+                {% if unit.availability != "in_use" %} 
+                           <span class="glyphicon glyphicon-thumbs-up"></span>
+                {% elif unit.current_user.id == request.user.id and unit.availability == inuse %}
+                           <span class="glyphicon glyphicon-eject"></span>
+                {% endif %}
                         </a>
-                    {% endif %}
+        			</form>
                 </div>
             </td>
         </tr>
