@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Elvis
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
+from .models import Elvis
 
 @login_required
 def unit_list(request):
@@ -13,60 +13,21 @@ def unit_list(request):
     return render(request, 'checkout/unit_list.html', 
     {'units': units, 'inuse': Elvis.IN_USE})
     
+@login_required
 def update_availability(request):
-    unitid = -1
-    userid = -1
     # import pdb; pdb.set_trace() 
-    if request.method == "POST":
-        units = Elvis.objects.all()
-        unitid = request.POST.get('unitid')
-        userid = request.POST.get('userid')
-        unit = Elvis.objects.get(id=unitid)
-        user = User.objects.get(id=userid)
-        if(unit.current_user == user):
-            checkin_device(unit)
-        else:
-            checkout_device(unit, user)
-        unit.save()
-        return HttpResponseRedirect(reverse('unit_list'))
-        
-    unitid = request.GET['unitid']
-    userid = request.GET['userid']
-        
-    print('update_availability userid: %s unit_id: %s' % (userid, unitid))
-    user = User.objects.get(id=userid)
+    units = Elvis.objects.all()
+    unitid = request.POST.get('unitid')
+    userid = request.POST.get('userid')
     unit = Elvis.objects.get(id=unitid)
-    operation = 'checkin'
+    user = User.objects.get(id=userid)
     if(unit.current_user == user):
         checkin_device(unit)
     else:
         checkout_device(unit, user)
-        operation = 'checkout'
     unit.save()
-    print('current user %s' % unit.current_user)
-    return JsonResponse( {
-        'unitid':unitid,
-        'operation': operation ,
-        'availability': unit.get_availability_display(),
-        'username': user.username
-        })
-    # return HttpResponse(status=204) 
+    return HttpResponseRedirect(reverse('unit_list')) 
     
-    
-# def update_availability(request, pk, userid):
-#     return HttpResponse(status=204) 
-#     user = User.objects.get(id=userid)
-#     unit = Elvis.objects.get(id=pk)
-#     # import pdb; pdb.set_trace()
-#     if(unit.current_user == user):
-#         print('user already reserved the device')
-#         unit.current_user = None
-#         unit.availability = Elvis.AVAILABLE
-#     else:
-#         print('checking out device')
-#         checkout_device(unit, user)
-#     unit.save()
-#     return HttpResponse(status=204) 
     
 def checkin_device(unit):
     unit.current_user = None
